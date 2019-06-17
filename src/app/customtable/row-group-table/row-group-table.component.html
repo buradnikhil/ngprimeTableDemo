@@ -1,0 +1,59 @@
+<h1>
+  Row Group Table
+</h1>
+
+<p-table [value]="cars" dataKey="brand">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Vin</th>
+      <th>Year</th>
+      <th>Color</th>
+    </tr>
+
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded" let-columns="columns">
+    <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.brand].index === rowIndex">
+      <td colspan="3">
+        <a href="#" [pRowToggler]="rowData">
+          <i [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
+          <span>{{rowData.brand}}</span>
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-testData let-rowIndex="rowIndex">
+    <tr>
+      <td>{{testData.vin}}</td>
+      <td>{{testData.year}}</td>
+      <td>{{testData.color}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<h1> Rowspan </h1>
+<p-table [value]="cars" sortField="brand" sortMode="single" (onSort)="onSort()">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Brand </th>
+      <th>vin </th>
+      <th>year </th>
+      <th>Color </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+    <tr>
+      <td *ngIf="rowGroupMetadata[rowData.brand].index === rowIndex"
+        [attr.rowspan]="rowGroupMetadata[rowData.brand].size">
+        {{rowData.brand}}
+      </td>
+      <td>{{rowData.vin}}</td>
+      <td>{{rowData.year}}</td>
+      <td>{{rowData.color}}</td>
+    </tr>
+
+
+  </ng-template>
+
+</p-table>
